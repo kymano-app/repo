@@ -1,0 +1,8 @@
+- name: system 
+  type: system # the drive with type 'system' will be ignored by existing users, because they already use this drive
+  stategy: append # we can use "replace" or "delete" as well
+  layers:
+  - hash: dsadasdasdsadsadsadsadasdas
+    url: gdrive://jhjkhkj
+  - hash: dsadasdasdsadsadsadsadasdas
+    url: gdrive://kkjhkj

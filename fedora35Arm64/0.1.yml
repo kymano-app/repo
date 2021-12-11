@@ -1,0 +1,88 @@
+systemVersion: config/v1 # if we introduce a new configuration format, this version will tell our software in which format this configuration should be parsed
+######################
+name: Fedora 35 ARM64
+description: Fedora 35 ARM64
+picture: http://hghjghjgjh/img.png
+releaseDescription: Init version
+version: 0.1 # after every change below, you must increase this version in a new file
+requirements:
+  minimumVersion: 1.0 # minimum kymano version
+  memory: 4096
+  cores: 2
+  disk: 10
+  arch:
+    - arm64 # possible options: x64, arm64, arm, x32, ia32, mips, mipsel, ppc, ppc64, s390, s390x 
+  cpu:
+    braind:
+      - include:
+        - AMD
+    vendor:
+      - exclude:
+        - Ryzen Threadripper 9000 # "Ryzen Threadripper 9000 anythnig" will be found
+        - Ryzen Threadripper 1800
+
+darwin: # possible options: linux, darwin, win
+  local:
+    config:
+      - !import ../shared/generalConfig/0.1
+      - !import ../shared/spice/0.1
+    drives:
+      - !import ../shared/fedora35SystemDrive/0.1
+
+  gpuStream:
+    config:
+      - !import ../shared/generalConfig/0.1
+    drives:
+      - !import ../shared/fedora35SystemDrive/0.1
+      - !import ../shared/biosDrive/0.1
+
+  vnc:
+    config:
+      - !import ../shared/generalConfig/0.1
+    drives:
+      - !import ../shared/fedora35SystemDrive/0.1
+      - !import ../shared/biosDrive/0.1
+
+linux:
+  local:
+    config:
+      - !import ../shared/generalConfig/0.1
+    drives:
+      - !import ../shared/fedora35SystemDrive/0.1
+      - !import ../shared/biosDrive/0.1
+
+  gpuStream:
+    config:
+      - !import ../shared/generalConfig/0.1
+    drives:
+      - !import ../shared/fedora35SystemDrive/0.1
+      - !import ../shared/biosDrive/0.1
+
+  vnc:
+    config:
+      - !import ../shared/generalConfig/0.1
+    drives:
+      - !import ../shared/fedora35SystemDrive/0.1
+      - !import ../shared/biosDrive/0.1
+
+win:
+  local:
+    config:
+      - !import ../shared/generalConfig/0.1
+    drives:
+      - !import ../shared/fedora35SystemDrive/0.1
+      - !import ../shared/biosDrive/0.1
+
+  gpuStream:
+    config:
+      - !import ../shared/generalConfig/0.1
+    drives:
+      - !import ../shared/fedora35SystemDrive/0.1
+      - !import ../shared/biosDrive/0.1
+
+  vnc:
+    config:
+      - !import ../shared/generalConfig/0.1
+    drives:
+      - !import ../shared/fedora35SystemDrive/0.1
+      - !import ../shared/biosDrive/0.1

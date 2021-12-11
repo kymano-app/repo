@@ -1,0 +1,2 @@
+- drive: file=$hdd,if=none,id=boot,cache=writethrough
+- device: nvme,drive=boot,serial=boot

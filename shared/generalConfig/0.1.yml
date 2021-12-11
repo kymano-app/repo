@@ -1,0 +1,13 @@
+- M: virt,highmem=no
+- accel: hvf
+- cpu: host
+- bios: $bios
+- device: virtio-ramfb
+- device: qemu-xhci
+- device: usb-kbd
+- device: usb-tablet
+- rtc: base=localtime,clock=host
+- !import ../nvmeBootDevice/0.1
+- !import ../virtioNic/0.1
+- device: intel-hda
+- device: hda-duplex

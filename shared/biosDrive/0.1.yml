@@ -1,0 +1,5 @@
+- name: bios 
+  stategy: append # we can use "replace" or "delete" as well
+  layers: # bios and any other drives can be overwritten in your new versions of the config
+  - hash: dsadasdasdsadsadsadsadasdas
+    url: gdrive://khkjhkj

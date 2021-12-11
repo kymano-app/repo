@@ -1,0 +1,4 @@
+- spice: port=5930,disable-ticketing=on
+- device: virtio-serial-pci,id=virtio-serial0
+- device: virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel1,id=channel1,name=org.spice-space.webdav.0
+- chardev: spiceport,name=org.spice-space.webdav.0,id=charchannel1

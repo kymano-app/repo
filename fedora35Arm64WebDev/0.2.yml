@@ -1,0 +1,21 @@
+systemVersion: config/v1
+######################
+from: /fedora35MacArm64/0.1
+name: Fedora 35 Mac ARM64 WebDev
+description: VScode, Chrome, NPM, Yarn
+picture: http://hghjghjgjh/img.png
+releaseDescription: upd VScode to 12, Chrome to 98, NPM to 14.3
+version: 0.2
+local:
+  config: # will be appended to parents
+    - spice: port=5930,disable-ticketing=on
+  drives:
+    - name: system
+      stategy: append # we can use "replace" as well
+      layers:
+      # all previous layers will come from parents configs
+      - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd
+        url: gdrive://djfkjdsfdsfdsfs
+      - hash: uhuihiuhuihuihiuh
+        url: gdrive://joijoijoijoijo
+  # all missed drives will be inherited from the parents
