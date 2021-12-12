@@ -1,21 +1,31 @@
 systemVersion: config/v1
 ######################
-from: /fedora35MacArm64/0.1
+from: github/kymano-app/repo/fedora35Arm64/0.1
 name: Fedora 35 Mac ARM64 WebDev
 description: VScode, Chrome, NPM, Yarn
 picture: http://hghjghjgjh/img.png
 releaseDescription: upd VScode to 12, Chrome to 98, NPM to 14.3
 version: 0.2
-local:
-  config: # will be appended to parents
-    - spice: port=5930,disable-ticketing=on
-  drives:
-    - name: system
-      stategy: append # we can use "replace" as well
-      layers:
-      # all previous layers will come from parents configs
-      - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd
-        url: gdrive://djfkjdsfdsfdsfs
-      - hash: uhuihiuhuihuihiuh
-        url: gdrive://joijoijoijoijo
-  # all missed drives will be inherited from the parents
+darwin:
+  local:
+    config: # will be appended to parents
+      - spice: port=5930,disable-ticketing=on
+    configReplace: # replace after the appending
+      0:
+        M: wewqeqweqwe, fddfsdf, dfdsf; dfdsfdsf, dfdsfdsfsd
+      11:
+        device: fdsfsdfsdf
+    drivers:
+      - name: system
+        type: system
+        strategy: append # we can use "replace" as well
+        layers:
+          # all previous layers will come from parents configs
+          - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd
+            url: gdrive://33333
+          - hash: uhuihiuhuihuihiuh
+            url: gdrive://44444
+    # all missed drivers will be inherited from the parents
+  console:
+    config:
+      - !import ../shared/generalConfig/0.1

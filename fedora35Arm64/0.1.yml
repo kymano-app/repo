@@ -11,35 +11,37 @@ requirements:
   cores: 2
   disk: 10
   arch:
-    - arm64 # possible options: x64, arm64, arm, x32, ia32, mips, mipsel, ppc, ppc64, s390, s390x 
+    - arm64 # possible options: x64, arm64, arm, x32, ia32, mips, mipsel, ppc, ppc64, s390, s390x
   cpu:
     brand:
-      - include:
+      include:
         - AMD
+      exclude:
+        - Intel-Y
     vendor:
-      - exclude:
+      exclude:
         - Ryzen Threadripper 9000 # "Ryzen Threadripper 9000 anythnig" will be found
         - Ryzen Threadripper 1800
 
 darwin: # possible options: linux, darwin, win
-  local:
+  local: # possible options: local, gpuStream, vnc, console
     config:
       - !import ../shared/generalConfig/0.1
       - !import ../shared/spice/0.1
-    drives:
+    drivers:
       - !import ../shared/fedora35SystemDrive/0.1
 
   gpuStream:
     config:
       - !import ../shared/generalConfig/0.1
-    drives:
+    drivers:
       - !import ../shared/fedora35SystemDrive/0.1
       - !import ../shared/biosDrive/0.1
 
   vnc:
     config:
       - !import ../shared/generalConfig/0.1
-    drives:
+    drivers:
       - !import ../shared/fedora35SystemDrive/0.1
       - !import ../shared/biosDrive/0.1
 
@@ -47,21 +49,21 @@ linux:
   local:
     config:
       - !import ../shared/generalConfig/0.1
-    drives:
+    drivers:
       - !import ../shared/fedora35SystemDrive/0.1
       - !import ../shared/biosDrive/0.1
 
   gpuStream:
     config:
       - !import ../shared/generalConfig/0.1
-    drives:
+    drivers:
       - !import ../shared/fedora35SystemDrive/0.1
       - !import ../shared/biosDrive/0.1
 
   vnc:
     config:
       - !import ../shared/generalConfig/0.1
-    drives:
+    drivers:
       - !import ../shared/fedora35SystemDrive/0.1
       - !import ../shared/biosDrive/0.1
 
@@ -69,20 +71,20 @@ win:
   local:
     config:
       - !import ../shared/generalConfig/0.1
-    drives:
+    drivers:
       - !import ../shared/fedora35SystemDrive/0.1
       - !import ../shared/biosDrive/0.1
 
   gpuStream:
     config:
       - !import ../shared/generalConfig/0.1
-    drives:
+    drivers:
       - !import ../shared/fedora35SystemDrive/0.1
       - !import ../shared/biosDrive/0.1
 
   vnc:
     config:
       - !import ../shared/generalConfig/0.1
-    drives:
+    drivers:
       - !import ../shared/fedora35SystemDrive/0.1
       - !import ../shared/biosDrive/0.1

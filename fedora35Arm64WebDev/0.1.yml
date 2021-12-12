@@ -6,7 +6,7 @@ description: VScode, Chrome, NPM, Yarn
 releaseDescription: Init version
 version: 0.1
 local:
-  drives:
+  drivers:
     hdd: # previous hdd states comes from /fedora35MacArm64/0.1
-    - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd # sha256 against the file
-      url: gdrive://djfkjdsfdsfdsfs
+      - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd # sha256 against the file
+        url: gdrive://djfkjdsfdsfdsfs

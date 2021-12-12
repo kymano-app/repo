@@ -1,0 +1,24 @@
+systemVersion: config/v1
+######################
+from: /fedora35Arm64WebDev/0.2
+name: Fedora 35 Mac ARM64 WebDev
+description: VScode, Chrome, NPM, Yarn
+releaseDescription: Init version
+version: 0.1
+requirements:
+  disk: 100
+  cpu:
+    brand:
+      include:
+        - AMDX
+darwin:
+  local:
+    drivers:
+      - name: system
+        type: system
+        strategy: replace
+        layers: # previous hdd states comes from /fedora35MacArm64/0.1
+          - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd # sha256 against the file
+            url: gdrive://55555555
+          - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd # sha256 against the file
+            url: gdrive://6666666
