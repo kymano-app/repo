@@ -21,4 +21,4 @@ darwin:
           - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd # sha256 against the file
             url: gdrive://55555555
           - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd # sha256 against the file
-            url: gdrive://6666666
+            url: gdrive://666666

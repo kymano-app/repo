@@ -26,65 +26,65 @@ requirements:
 darwin: # possible options: linux, darwin, win
   local: # possible options: local, gpuStream, vnc, console
     config:
-      - !import ../shared/generalConfig/0.1
-      - !import ../shared/spice/0.1
+      - !import /shared/generalConfig/0.1
+      - !import /shared/spice/0.1
     drivers:
-      - !import ../shared/fedora35SystemDrive/0.1
+      - !import /shared/fedora35SystemDrive/0.1
 
   gpuStream:
     config:
-      - !import ../shared/generalConfig/0.1
+      - !import /shared/generalConfig/0.1
     drivers:
-      - !import ../shared/fedora35SystemDrive/0.1
-      - !import ../shared/biosDrive/0.1
+      - !import /shared/fedora35SystemDrive/0.1
+      - !import /shared/biosDrive/0.1
 
   vnc:
     config:
-      - !import ../shared/generalConfig/0.1
+      - !import /shared/generalConfig/0.1
     drivers:
-      - !import ../shared/fedora35SystemDrive/0.1
-      - !import ../shared/biosDrive/0.1
+      - !import /shared/fedora35SystemDrive/0.1
+      - !import /shared/biosDrive/0.1
 
 linux:
   local:
     config:
-      - !import ../shared/generalConfig/0.1
+      - !import /shared/generalConfig/0.1
     drivers:
-      - !import ../shared/fedora35SystemDrive/0.1
-      - !import ../shared/biosDrive/0.1
+      - !import /shared/fedora35SystemDrive/0.1
+      - !import /shared/biosDrive/0.1
 
   gpuStream:
     config:
-      - !import ../shared/generalConfig/0.1
+      - !import /shared/generalConfig/0.1
     drivers:
-      - !import ../shared/fedora35SystemDrive/0.1
-      - !import ../shared/biosDrive/0.1
+      - !import /shared/fedora35SystemDrive/0.1
+      - !import /shared/biosDrive/0.1
 
   vnc:
     config:
-      - !import ../shared/generalConfig/0.1
+      - !import /shared/generalConfig/0.1
     drivers:
-      - !import ../shared/fedora35SystemDrive/0.1
-      - !import ../shared/biosDrive/0.1
+      - !import /shared/fedora35SystemDrive/0.1
+      - !import /shared/biosDrive/0.1
 
 win:
   local:
     config:
-      - !import ../shared/generalConfig/0.1
+      - !import /shared/generalConfig/0.1
     drivers:
-      - !import ../shared/fedora35SystemDrive/0.1
-      - !import ../shared/biosDrive/0.1
+      - !import /shared/fedora35SystemDrive/0.1
+      - !import /shared/biosDrive/0.1
 
   gpuStream:
     config:
-      - !import ../shared/generalConfig/0.1
+      - !import /shared/generalConfig/0.1
     drivers:
-      - !import ../shared/fedora35SystemDrive/0.1
-      - !import ../shared/biosDrive/0.1
+      - !import /shared/fedora35SystemDrive/0.1
+      - !import /shared/biosDrive/0.1
 
   vnc:
     config:
-      - !import ../shared/generalConfig/0.1
+      - !import /shared/generalConfig/0.1
     drivers:
-      - !import ../shared/fedora35SystemDrive/0.1
-      - !import ../shared/biosDrive/0.1
+      - !import /shared/fedora35SystemDrive/0.1
+      - !import /shared/biosDrive/0.1

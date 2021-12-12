@@ -7,7 +7,7 @@
 - device: usb-kbd
 - device: usb-tablet
 - rtc: base=localtime,clock=host
-- !import ../nvmeBootDevice/0.1
-- !import ../virtioNic/0.1
+- !import /shared/nvmeBootDevice/0.1
+- !import /shared/virtioNic/0.1
 - device: intel-hda
 - device: hda-duplex

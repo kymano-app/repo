@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "adm-zip": "^0.5.9",
+    "axios": "^0.24.0",
+    "os-name": "^5.0.1",
+    "simple-yaml-import": "^0.1.0",
+    "systeminformation": "^5.9.16"
+  }
+}

@@ -1,6 +1,6 @@
 systemVersion: config/v1
 ######################
-from: /fedora35Arm64/0.1
+from: github/kymano-app/repo/fedora35Arm64/0.1
 name: Fedora 35 Mac ARM64 WebDev
 description: VScode, Chrome, NPM, Yarn
 picture: http://hghjghjgjh/img.png
@@ -28,4 +28,4 @@ darwin:
     # all missed drivers will be inherited from the parents
   console:
     config:
-      - !import ../shared/generalConfig/0.1
+      - !import /shared/generalConfig/0.1
