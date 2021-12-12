@@ -13,7 +13,7 @@ requirements:
   arch:
     - arm64 # possible options: x64, arm64, arm, x32, ia32, mips, mipsel, ppc, ppc64, s390, s390x 
   cpu:
-    braind:
+    brand:
       - include:
         - AMD
     vendor:
