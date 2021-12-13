@@ -19,9 +19,7 @@ const formatConfig = (config, formatedConfig = []) => {
 
 const merge = (ymlContent, resultConfig) => {
   if (ymlContent) {
-    if (!resultConfig) {
-      resultConfig = [];
-    }
+    resultConfig = resultConfig || [];
     resultConfig = [...resultConfig, ...ymlContent];
   }
   return resultConfig;
@@ -29,13 +27,9 @@ const merge = (ymlContent, resultConfig) => {
 
 const addDisplayConfig = (ymlContent, resultConfig, type) => {
   if (ymlContent[type]) {
-    if (!resultConfig[type]) {
-      resultConfig[type] = {};
-    }
+    resultConfig[type] = resultConfig[type] || {};
     if (ymlContent[type]["config"]) {
-      if (!resultConfig[type]["config"]) {
-        resultConfig[type]["config"] = [];
-      }
+      resultConfig[type]["config"] = resultConfig[type]["config"] || [];
       resultConfig[type]["config"] = [
         ...resultConfig[type]["config"],
         ...ymlContent[type]["config"],
@@ -52,9 +46,7 @@ const addDisplayConfig = (ymlContent, resultConfig, type) => {
     if (ymlContent[type]["drivers"]) {
       let newDrivers = formatConfig(ymlContent[type]["drivers"]);
       newDrivers.forEach((drive) => {
-        if (!resultConfig[type]["drivers"]) {
-          resultConfig[type]["drivers"] = {};
-        }
+        resultConfig[type]["drivers"] = resultConfig[type]["drivers"] || {};
         if (!resultConfig[type]["drivers"][drive.name]) {
           resultConfig[type]["drivers"][drive.name] = {};
           resultConfig[type]["drivers"][drive.name]["layers"] = [];
@@ -76,6 +68,7 @@ const addDisplayConfig = (ymlContent, resultConfig, type) => {
 };
 
 const addDisplayTypes = (ymlContent, resultConfig) => {
+  resultConfig = resultConfig || {};
   ["local", "gpuStream", "vnc", "console"].forEach((type) => {
     resultConfig[type] = addDisplayConfig(ymlContent, resultConfig ?? {}, type);
   });
@@ -97,9 +90,7 @@ const getFromRemoteZip = async (ymlPath) => {
   try {
     await fs.access(`${tmpDir}/${githubRepoName}`);
   } catch (error) {
-    fs.mkdir(`${tmpDir}/${githubRepoName}`, {
-      recursive: true,
-    });
+    fs.mkdir(`${tmpDir}/${githubRepoName}`, { recursive: true });
   }
   zip.extractAllTo(`${tmpDir}/${githubRepoName}`, true);
   return read(`${tmpDir}/${githubRepoName}/repo-master/${githubYmlPath}`, {
@@ -108,6 +99,8 @@ const getFromRemoteZip = async (ymlPath) => {
 };
 
 const addRequirements = (ymlContent, finalConfig) => {
+  finalConfig = finalConfig || {};
+
   ["minimumVersion", "memory", "cores", "disk", "arch"].forEach(
     (requirement) => {
       if (ymlContent[requirement]) {
@@ -117,15 +110,11 @@ const addRequirements = (ymlContent, finalConfig) => {
   );
 
   if (ymlContent.cpu) {
-    if (!finalConfig["cpu"]) {
-      finalConfig["cpu"] = {};
-    }
+    finalConfig["cpu"] = finalConfig["cpu"] || {};
 
     ["brand", "vendor"].forEach((cpuParam) => {
       if (ymlContent.cpu[cpuParam]) {
-        if (!finalConfig["cpu"][cpuParam]) {
-          finalConfig["cpu"][cpuParam] = {};
-        }
+        finalConfig["cpu"][cpuParam] = finalConfig["cpu"][cpuParam] || {};
 
         ["include", "exclude"].forEach((incExcl) => {
           finalConfig["cpu"][cpuParam][incExcl] = merge(
@@ -158,10 +147,6 @@ const processYml = async (ymlPath, workingDir, finalConfig = {}) => {
   });
 
   if (ymlContent.requirements) {
-    if (!finalConfig["requirements"]) {
-      finalConfig["requirements"] = {};
-    }
-
     finalConfig["requirements"] = addRequirements(
       ymlContent["requirements"],
       finalConfig["requirements"]
@@ -170,9 +155,6 @@ const processYml = async (ymlPath, workingDir, finalConfig = {}) => {
 
   ["darwin", "linux", "win"].forEach((os) => {
     if (ymlContent[os]) {
-      if (!finalConfig[os]) {
-        finalConfig[os] = {};
-      }
       finalConfig[os] = addDisplayTypes(ymlContent[os], finalConfig[os]);
     }
   });
@@ -185,4 +167,4 @@ const config = await processYml(
   "/Users/oleg/projects/kymano-app/repo/"
 );
 //console.log(config);
-console.log(JSON.stringify(config, null, 4));
+console.log(JSON.stringify(config));
