@@ -1,171 +1,188 @@
-import AdmZip from 'adm-zip';
-import axios from 'axios';
-import { promises as fs } from 'fs';
-import os from 'os';
+import AdmZip from "adm-zip";
+import axios from "axios";
+import { promises as fs } from "fs";
+import os from "os";
 import { read } from "simple-yaml-import";
 
-const formatConfig = (config, newConfig = []) => {
-  if (!config) return newConfig;
+const formatConfig = (config, formatedConfig = []) => {
+  if (!config) return formatedConfig;
   config.forEach((line) => {
     if (line.length > 0) {
-      let newConfig_ = formatConfig(line);
-      newConfig = [...newConfig, ...newConfig_];
+      let formatedConfig_ = formatConfig(line);
+      formatedConfig = [...formatedConfig, ...formatedConfig_];
     } else {
-      newConfig.push(line);
+      formatedConfig.push(line);
     }
   });
-  return newConfig;
+  return formatedConfig;
 };
 
-const IncExcl = (content, result) => {
-  if (content) {
-    if (!result) {
-      result = [];
+const merge = (ymlContent, resultConfig) => {
+  if (ymlContent) {
+    if (!resultConfig) {
+      resultConfig = [];
     }
-    result = [...result, ...content];
+    resultConfig = [...resultConfig, ...ymlContent];
   }
-  return result;
+  return resultConfig;
 };
 
-const OS = (content, result, type) => {
-  if (content[type]) {
-    if (!result[type]) {
-      result[type] = {};
+const addDisplayConfig = (ymlContent, resultConfig, type) => {
+  if (ymlContent[type]) {
+    if (!resultConfig[type]) {
+      resultConfig[type] = {};
     }
-    if (content[type]["config"]) {
-      if (!result[type]["config"]) {
-        result[type]["config"] = [];
+    if (ymlContent[type]["config"]) {
+      if (!resultConfig[type]["config"]) {
+        resultConfig[type]["config"] = [];
       }
-      result[type]["config"] = [
-        ...result[type]["config"],
-        ...content[type]["config"],
+      resultConfig[type]["config"] = [
+        ...resultConfig[type]["config"],
+        ...ymlContent[type]["config"],
       ];
     }
 
-    result[type]["config"] = formatConfig(result[type]["config"]);
-    if (content[type].configReplace) {
-      Object.entries(content[type].configReplace).forEach(([key, value]) => {
-        result[type]["config"][key] = value;
+    resultConfig[type]["config"] = formatConfig(resultConfig[type]["config"]);
+    if (ymlContent[type].configReplace) {
+      Object.entries(ymlContent[type].configReplace).forEach(([key, value]) => {
+        resultConfig[type]["config"][key] = value;
       });
     }
 
-    if (content[type]["drivers"]) {
-      let newDrivers = formatConfig(content[type]["drivers"]);
+    if (ymlContent[type]["drivers"]) {
+      let newDrivers = formatConfig(ymlContent[type]["drivers"]);
       newDrivers.forEach((drive) => {
-        if (!result[type]["drivers"]) {
-          result[type]["drivers"] = {};
+        if (!resultConfig[type]["drivers"]) {
+          resultConfig[type]["drivers"] = {};
         }
-        if (!result[type]["drivers"][drive.name]) {
-          result[type]["drivers"][drive.name] = {};
-          result[type]["drivers"][drive.name]["layers"] = [];
+        if (!resultConfig[type]["drivers"][drive.name]) {
+          resultConfig[type]["drivers"][drive.name] = {};
+          resultConfig[type]["drivers"][drive.name]["layers"] = [];
         }
         if (drive.strategy === "replace") {
-          result[type]["drivers"][drive.name]["layers"] = [...drive["layers"]];
+          resultConfig[type]["drivers"][drive.name]["layers"] = [
+            ...drive["layers"],
+          ];
         } else {
-          result[type]["drivers"][drive.name]["layers"] = [
-            ...result[type]["drivers"][drive.name]["layers"],
+          resultConfig[type]["drivers"][drive.name]["layers"] = [
+            ...resultConfig[type]["drivers"][drive.name]["layers"],
             ...drive["layers"],
           ];
         }
       });
     }
   }
-  return result[type];
+  return resultConfig[type];
 };
 
-const allDisplayTypes = (result, content) => {
+const addDisplayTypes = (ymlContent, resultConfig) => {
   ["local", "gpuStream", "vnc", "console"].forEach((type) => {
-    result[type] = OS(content, result ?? {}, type);
+    resultConfig[type] = addDisplayConfig(ymlContent, resultConfig ?? {}, type);
   });
-  return result;
+  return resultConfig;
 };
 
-const rec = async (path, result = {}) => {
-  let content;
-  if (path.slice(0, 1) === "/") {
-     content = read("/Users/oleg/projects/kymano-app/repo" + path, {path: '/Users/oleg/projects/kymano-app/repo/'});
-    if (content.from) {
-      result = await rec(content.from, result);
+const getFromRemoteZip = async (ymlPath) => {
+  let githubRepoName = ymlPath.split("/").slice(1, 3).join("/");
+  let githubYmlPath = ymlPath.split("/").slice(3).join("/");
+
+  let tmpDir = os.tmpdir();
+  const zipData = await axios.get(
+    `https://codeload.github.com/${githubRepoName}/zip/refs/heads/master`,
+    {
+      responseType: "arraybuffer",
     }
-  } else if (path.split("/")[0] === "github") {
-    let githubRepoName = path.split("/").slice(1, 3).join("/");
-    let githubFilePath = path.split("/").slice(3).join("/");
-    let tmpDir = os.tmpdir();
-    console.log('tmpDir:::', tmpDir)
-    const body = await axios.get(
-      `https://codeload.github.com/${githubRepoName}/zip/refs/heads/master`,
-      {
-        responseType: "arraybuffer",
+  );
+  const zip = new AdmZip(zipData.data);
+  try {
+    await fs.access(`${tmpDir}/${githubRepoName}`);
+  } catch (error) {
+    fs.mkdir(`${tmpDir}/${githubRepoName}`, {
+      recursive: true,
+    });
+  }
+  zip.extractAllTo(`${tmpDir}/${githubRepoName}`, true);
+  return read(`${tmpDir}/${githubRepoName}/repo-master/${githubYmlPath}`, {
+    path: `${tmpDir}/${githubRepoName}/repo-master/`,
+  });
+};
+
+const addRequirements = (ymlContent, finalConfig) => {
+  ["minimumVersion", "memory", "cores", "disk", "arch"].forEach(
+    (requirement) => {
+      if (ymlContent[requirement]) {
+        finalConfig[requirement] = ymlContent[requirement];
       }
-    );
-    const zip = new AdmZip(body.data);
-    try {
-      await fs.access(`${tmpDir}/${githubRepoName}`);
-    } catch (error) {
-      fs.mkdir(`${tmpDir}/${githubRepoName}`, {
-        recursive: true,
-      });
     }
-    zip.extractAllTo(`${tmpDir}/${githubRepoName}`, true);
-    content = read(
-      `${tmpDir}/${githubRepoName}/repo-master/${githubFilePath}`
-    , {path: `${tmpDir}/${githubRepoName}/repo-master/`});
-    if (content.from) {
-      result = rec(content.from, result);
+  );
+
+  if (ymlContent.cpu) {
+    if (!finalConfig["cpu"]) {
+      finalConfig["cpu"] = {};
+    }
+
+    ["brand", "vendor"].forEach((cpuParam) => {
+      if (ymlContent.cpu[cpuParam]) {
+        if (!finalConfig["cpu"][cpuParam]) {
+          finalConfig["cpu"][cpuParam] = {};
+        }
+
+        ["include", "exclude"].forEach((incExcl) => {
+          finalConfig["cpu"][cpuParam][incExcl] = merge(
+            ymlContent.cpu[cpuParam][incExcl],
+            finalConfig["cpu"][cpuParam][incExcl]
+          );
+        });
+      }
+    });
+  }
+  return finalConfig;
+};
+
+const processYml = async (ymlPath, workingDir, finalConfig = {}) => {
+  let ymlContent;
+  if (ymlPath.slice(0, 1) === "/") {
+    ymlContent = read(workingDir + ymlPath, { path: workingDir });
+    if (ymlContent.from) {
+      finalConfig = await processYml(ymlContent.from, workingDir, finalConfig);
+    }
+  } else if (ymlPath.split("/")[0] === "github") {
+    ymlContent = await getFromRemoteZip(ymlPath);
+    if (ymlContent.from) {
+      finalConfig = processYml(ymlContent.from, finalConfig);
     }
   }
 
   ["name", "description", "version"].forEach((param) => {
-    result[param] = content[param];
+    finalConfig[param] = ymlContent[param];
   });
 
-  if (content.requirements) {
-    if (!result["requirements"]) {
-      result["requirements"] = {};
+  if (ymlContent.requirements) {
+    if (!finalConfig["requirements"]) {
+      finalConfig["requirements"] = {};
     }
 
-    ["minimumVersion", "memory", "cores", "disk", "arch"].forEach(
-      (requirement) => {
-        if (content.requirements[requirement]) {
-          result["requirements"][requirement] =
-            content.requirements[requirement];
-        }
-      }
+    finalConfig["requirements"] = addRequirements(
+      ymlContent["requirements"],
+      finalConfig["requirements"]
     );
-    if (content.requirements.cpu) {
-      if (!result["requirements"]["cpu"]) {
-        result["requirements"]["cpu"] = {};
-      }
-
-      ["brand", "vendor"].forEach((cpuParam) => {
-        if (content.requirements.cpu[cpuParam]) {
-          if (!result["requirements"]["cpu"][cpuParam]) {
-            result["requirements"]["cpu"][cpuParam] = {};
-          }
-
-          ["include", "exclude"].forEach((incExcl) => {
-            result["requirements"]["cpu"][cpuParam][incExcl] = IncExcl(
-              content.requirements.cpu[cpuParam][incExcl],
-              result["requirements"]["cpu"][cpuParam][incExcl]
-            );
-          });
-        }
-      });
-    }
   }
 
   ["darwin", "linux", "win"].forEach((os) => {
-    if (content[os]) {
-      if (!result[os]) {
-        result[os] = {};
+    if (ymlContent[os]) {
+      if (!finalConfig[os]) {
+        finalConfig[os] = {};
       }
-      result[os] = allDisplayTypes(result[os], content[os]);
+      finalConfig[os] = addDisplayTypes(ymlContent[os], finalConfig[os]);
     }
   });
 
-  return result;
+  return finalConfig;
 };
 
-const config = await rec("/fedora35Arm64WebDev20/0.1");
+const config = await processYml(
+  "/fedora35Arm64WebDev20/0.1",
+  "/Users/oleg/projects/kymano-app/repo/"
+);
 //console.log(config);
 console.log(JSON.stringify(config, null, 4));
