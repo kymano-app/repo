@@ -4,6 +4,40 @@ import { promises as fs } from "fs";
 import os from "os";
 import { read } from "simple-yaml-import";
 
+export const processYml = async (ymlPath, workingDir, finalConfig = {}) => {
+  let ymlContent;
+  if (ymlPath.slice(0, 1) === "/") {
+    ymlContent = read(workingDir + ymlPath, { path: workingDir });
+    if (ymlContent.from) {
+      finalConfig = await processYml(ymlContent.from, workingDir, finalConfig);
+    }
+  } else if (ymlPath.split("/")[0] === "github") {
+    ymlContent = await getFromRemoteZip(ymlPath);
+    if (ymlContent.from) {
+      finalConfig = processYml(ymlContent.from, finalConfig);
+    }
+  }
+
+  ["name", "description", "version"].forEach((param) => {
+    finalConfig[param] = ymlContent[param];
+  });
+
+  if (ymlContent.requirements) {
+    finalConfig["requirements"] = addRequirements(
+      ymlContent["requirements"],
+      finalConfig["requirements"]
+    );
+  }
+
+  ["darwin", "linux", "win"].forEach((os) => {
+    if (ymlContent[os]) {
+      finalConfig[os] = addDisplayTypes(ymlContent[os], finalConfig[os]);
+    }
+  });
+
+  return finalConfig;
+};
+
 const formatConfig = (config, formatedConfig = []) => {
   if (!config) return formatedConfig;
   config.forEach((line) => {
@@ -125,40 +159,6 @@ const addRequirements = (ymlContent, finalConfig) => {
       }
     });
   }
-  return finalConfig;
-};
-
-const processYml = async (ymlPath, workingDir, finalConfig = {}) => {
-  let ymlContent;
-  if (ymlPath.slice(0, 1) === "/") {
-    ymlContent = read(workingDir + ymlPath, { path: workingDir });
-    if (ymlContent.from) {
-      finalConfig = await processYml(ymlContent.from, workingDir, finalConfig);
-    }
-  } else if (ymlPath.split("/")[0] === "github") {
-    ymlContent = await getFromRemoteZip(ymlPath);
-    if (ymlContent.from) {
-      finalConfig = processYml(ymlContent.from, finalConfig);
-    }
-  }
-
-  ["name", "description", "version"].forEach((param) => {
-    finalConfig[param] = ymlContent[param];
-  });
-
-  if (ymlContent.requirements) {
-    finalConfig["requirements"] = addRequirements(
-      ymlContent["requirements"],
-      finalConfig["requirements"]
-    );
-  }
-
-  ["darwin", "linux", "win"].forEach((os) => {
-    if (ymlContent[os]) {
-      finalConfig[os] = addDisplayTypes(ymlContent[os], finalConfig[os]);
-    }
-  });
-
   return finalConfig;
 };
 
