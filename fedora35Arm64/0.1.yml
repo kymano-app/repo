@@ -10,18 +10,22 @@ requirements:
   memory: 4096
   cores: 2
   disk: 10
+  resolutionX:
+    - 1980
+  resolutionY:
+    - 1080
   arch:
     - arm64 # possible options: x64, arm64, arm, x32, ia32, mips, mipsel, ppc, ppc64, s390, s390x
   cpu:
     manufacturer:
       include:
-        - AMD
+        - Apple*
       exclude:
-        - Intel-Y
+        - Intel*
     brand:
       exclude:
-        - Ryzen Threadripper 9000 # "Ryzen Threadripper 9000 anythnig" will be found
-        - Ryzen Threadripper 1800
+        - Ryzen Threadripper 9000* # "Ryzen Threadripper 9000 anythnig" will be found
+        - Ryzen Threadripper 1800 # Exactly "Ryzen Threadripper 1800" will be found
   baseboard:
     manufacturer:
       exclude:
