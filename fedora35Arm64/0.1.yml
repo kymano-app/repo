@@ -11,9 +11,9 @@ requirements:
   cores: 2
   disk: 10
   resolutionX:
-    - 1980
+    - 1440
   resolutionY:
-    - 1080
+    - 900
   arch:
     - arm64 # possible options: x64, arm64, arm, x32, ia32, mips, mipsel, ppc, ppc64, s390, s390x
   cpu:
