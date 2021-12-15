@@ -16,7 +16,7 @@ darwin:
     drivers:
       - name: system
         type: system
-        strategy: replace
+        strategy: append
         layers: # previous hdd states comes from /fedora35MacArm64/0.1
           - hash: fdsfdsfdsfdsfdsfdsfdsfdsfd # sha256 against the file
             url: gdrive://55555555

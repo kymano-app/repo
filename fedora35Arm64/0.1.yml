@@ -13,15 +13,22 @@ requirements:
   arch:
     - arm64 # possible options: x64, arm64, arm, x32, ia32, mips, mipsel, ppc, ppc64, s390, s390x
   cpu:
-    brand:
+    manufacturer:
       include:
         - AMD
       exclude:
         - Intel-Y
-    vendor:
+    brand:
       exclude:
         - Ryzen Threadripper 9000 # "Ryzen Threadripper 9000 anythnig" will be found
         - Ryzen Threadripper 1800
+  baseboard:
+    manufacturer:
+      exclude:
+        - ASRock
+    model:
+      exclude:
+        - H310M-STX
 
 darwin: # possible options: linux, darwin, win
   local: # possible options: local, gpuStream, vnc, console
