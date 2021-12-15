@@ -3,7 +3,6 @@ systemVersion: config/v1
 from: github/kymano-app/repo/fedora35Arm64/0.1
 name: Fedora 35 Mac ARM64 WebDev
 description: VScode, Chrome, NPM, Yarn
-picture: http://hghjghjgjh/img.png
 releaseDescription: upd VScode to 12, Chrome to 98, NPM to 14.3
 version: 0.2
 darwin:
