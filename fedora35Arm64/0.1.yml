@@ -2,7 +2,7 @@ systemVersion: config/v1 # if we introduce a new configuration format, this vers
 ######################
 name: Fedora 35 ARM64
 description: Fedora 35 ARM64
-picture: http://hghjghjgjh/img.png
+picture: https://spins.fedoraproject.org/static/images/screenshots/screenshot-kde.jpg
 releaseDescription: Init version
 version: 0.1 # after every change below, you must increase this version in a new file
 requirements:
