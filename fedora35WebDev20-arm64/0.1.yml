@@ -1,6 +1,7 @@
 systemVersion: config/v1
 ######################
-from: /fedora35Arm64WebDev/0.2
+from: /fedora35WebDev/0.2
+arch: arm64
 name: Fedora 35 Mac ARM64 WebDev
 description: VScode, Chrome, NPM, Yarn
 releaseDescription: Init version
@@ -13,7 +14,7 @@ requirements:
         - AMDX
 darwin:
   local:
-    drivers:
+    drives:
       - name: system
         type: system
         strategy: append

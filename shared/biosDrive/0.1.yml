@@ -1,5 +1,3 @@
 - name: bios
-  strategy: append # we can use "replace" or "delete" as well
-  layers: # bios and any other drivers can be overwritten in your new versions of the config
-    - hash: dsadasdasdsadsadsadsadasdas
-      url: gdrive://khkjhkj
+  hash: dsadasdasdsadsadsadsadasdas
+  url: gdrive://khkjhkj

@@ -5,12 +5,12 @@ configs:
   0: # never mix config indexes. on the user side, this index is associated with certain config.
     version: 0.1 # bump this after each config change
     type: base # users cannot find the base type. the base only for inheritance purposes
-    from: /fedora35Arm64/0.1 # the name 'fedora35MacArm64' can be changed without affecting users, but this will affect those who use your config as a base
+    from: /fedora35/0.1 # the name 'fedora35MacArm64' can be changed without affecting users, but this will affect those who use your config as a base
   1:
     version: 0.2
     type: searchable
-    from: /fedora35Arm64WebDev/0.2
+    from: /fedora35WebDev/0.2
   2:
     version: 0.1
     type: searchable
-    from: /ubuntu20MacArm64/0.1
+    from: /ubuntu20Mac/0.1

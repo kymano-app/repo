@@ -1,0 +1,69 @@
+systemVersion: config/v1
+name: u21
+arch: arm64
+
+macos:
+  local:
+    # npm install -g kymano
+    # kymano run fedora -open
+    message: "open spice://$ip:$port in the Remote-viewer"
+    qemu: 6.2.0-gpu-sdl # https://github.com/kymano-app/qemu/releases/download/6.2.0-cocoa/qemu-6.2.0-cocoa-macos-x86_64.tgz
+    open:
+      cocoa:
+        commands: '-f'
+      # remote-viewer:
+      #   version: 11.0
+      #   commands: '-f'
+    config:
+      - machine: virt-6.2,highmem=off
+      - accel: hvf
+    #  - accel: tcg,tb-size=1024
+      - cpu: host
+      - smp: 8
+      - m: 4G
+      #- bios: $edk2
+      - drive: if=pflash,format=raw,unit=0,file=$EFICodeAARCH64,readonly=on
+      - drive: if=pflash,format=raw,unit=1,file=$EFIVARS
+      - boot: menu=on 
+     # - serial: stdio
+      - device: qemu-xhci
+      - device: usb-kbd
+      - device: usb-tablet
+      - device: virtio-ramfb
+      - drive: file=$system,if=none,id=boot,cache=writethrough
+      - device: nvme,drive=boot,serial=boot
+      - device: intel-hda
+      - device: hda-duplex
+      - display: sdl
+      # - monitor: stdio
+      - nic: user,model=virtio-net-pci
+    #  - !import ./config/cdrom
+    drives:
+      - !import ./drives/cdrom
+      - name: system
+        type: system
+        layers:
+          - hash: 95039522f9b8f06c06cd9f43dbdb9ec627e50a48217212e56f0e8ed43fa4434a
+            url: https://github.com/kymano-app/repo/releases/download/fedora36-workstation/fedora36-workstation-1.qcow2.tgz
+          
+      - name: EFIVARS
+        layers:
+          - hash: b3b855c5a80310168051164986855692d1bdb06e67619856177965cd87c6774f
+            url: https://github.com/kymano-app/repo/releases/download/0.0.1/EFI_VARS.img.tgz
+      - name: EFICodeAARCH64
+        layers:
+          - hash: ca76c2ae023903d2378756f711887061b989673dc8ccb3f9ec821d67c2e796ad
+            url: https://github.com/kymano-app/repo/releases/download/0.0.1/EFI_Code-AARCH64.img.tgz
+
+  # npm install -g kymano
+  # kymano run fedora -remote
+  remote:
+    message: "open spice://$ip:$port in the Remote-viewer"
+    qemu: 6.2.0-gtk # https://github.com/kymano-app/qemu/releases/download/6.2.0-cocoa/qemu-6.2.0-cocoa-macos-x86_64.tgz
+    config:
+      - machine: virt-5.2,highmem=off
+    drives:
+      - name: system
+
+
+

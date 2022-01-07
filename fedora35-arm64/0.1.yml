@@ -5,8 +5,11 @@ description: Fedora 35 ARM64
 picture: https://spins.fedoraproject.org/static/images/screenshots/screenshot-kde.jpg
 releaseDescription: Init version
 version: 0.1 # after every change below, you must increase this version in a new file
+backendVersion: 1.0 # kymano back-end version
+moonlightVersion: 1.0 # 
+remoteViewerVersion: 1.0 # 
 requirements:
-  minimumVersion: 1.0 # minimum kymano version
+  frontEndVersion: 1.0 # minimum kymano front-end version
   memory: 4096
   cores: 2
   disk: 10
@@ -39,42 +42,45 @@ darwin: # possible options: linux, darwin, win
     config:
       - !import /shared/generalConfig/0.1
       - !import /shared/spice/0.1
-    drivers:
+    drives:
       - !import /shared/fedora35SystemDrive/0.1
 
   gpuStream:
     config:
       - !import /shared/generalConfig/0.1
-    drivers:
+    drives:
       - !import /shared/fedora35SystemDrive/0.1
       - !import /shared/biosDrive/0.1
 
   vnc:
     config:
       - !import /shared/generalConfig/0.1
-    drivers:
+    drives:
       - !import /shared/fedora35SystemDrive/0.1
       - !import /shared/biosDrive/0.1
+
+  console:
+  
 
 linux:
   local:
     config:
       - !import /shared/generalConfig/0.1
-    drivers:
+    drives:
       - !import /shared/fedora35SystemDrive/0.1
       - !import /shared/biosDrive/0.1
 
   gpuStream:
     config:
       - !import /shared/generalConfig/0.1
-    drivers:
+    drives:
       - !import /shared/fedora35SystemDrive/0.1
       - !import /shared/biosDrive/0.1
 
   vnc:
     config:
       - !import /shared/generalConfig/0.1
-    drivers:
+    drives:
       - !import /shared/fedora35SystemDrive/0.1
       - !import /shared/biosDrive/0.1
 
@@ -82,20 +88,20 @@ win:
   local:
     config:
       - !import /shared/generalConfig/0.1
-    drivers:
+    drives:
       - !import /shared/fedora35SystemDrive/0.1
       - !import /shared/biosDrive/0.1
 
   gpuStream:
     config:
       - !import /shared/generalConfig/0.1
-    drivers:
+    drives:
       - !import /shared/fedora35SystemDrive/0.1
       - !import /shared/biosDrive/0.1
 
   vnc:
     config:
       - !import /shared/generalConfig/0.1
-    drivers:
+    drives:
       - !import /shared/fedora35SystemDrive/0.1
       - !import /shared/biosDrive/0.1

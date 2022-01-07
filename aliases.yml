@@ -1,0 +1,7 @@
+- name: fedora
+  path: kymano-app/fedora/fedora35-workstation:0.1
+- name: fedora:35
+  path: kymano-app/fedora/fedora35-workstation:0.1
+- name: fedora:36
+  path: kymano-app/fedora/fedora36-workstation:0.1
+# Please don't add macOS and Windows here

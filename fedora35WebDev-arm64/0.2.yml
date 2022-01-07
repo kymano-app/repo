@@ -1,6 +1,7 @@
 systemVersion: config/v1
 ######################
-from: github/kymano-app/repo/fedora35Arm64/0.1
+from: gh://kymano-app/repo/fedora35/0.1
+arch: arm64
 name: Fedora 35 Mac ARM64 WebDev
 description: VScode, Chrome, NPM, Yarn
 releaseDescription: upd VScode to 12, Chrome to 98, NPM to 14.3
@@ -14,7 +15,7 @@ darwin:
         M: wewqeqweqwe, fddfsdf, dfdsf; dfdsfdsf, dfdsfdsfsd
       11:
         device: fdsfsdfsdf
-    drivers:
+    drives:
       - name: system
         type: system
         strategy: append # we can use "replace" as well
@@ -24,7 +25,7 @@ darwin:
             url: gdrive://33333
           - hash: uhuihiuhuihuihiuh
             url: gdrive://44444
-    # all missed drivers will be inherited from the parents
+    # all missed drives will be inherited from the parents
   console:
     config:
       - !import /shared/generalConfig/0.1
