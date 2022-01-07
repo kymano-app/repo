@@ -1,7 +1,7 @@
 - name: fedora
-  path: kymano-app/fedora/fedora35-workstation:0.1
+  url: https://raw.githubusercontent.com/kymano-app/fedora/master/fedora35-workstation-arm64/0.1.yml
 - name: fedora:35
-  path: kymano-app/fedora/fedora35-workstation:0.1
+  url: https://raw.githubusercontent.com/kymano-app/fedora/master/fedora35-workstation-arm64/0.1.yml
 - name: fedora:36
-  path: kymano-app/fedora/fedora36-workstation:0.1
+  url: https://raw.githubusercontent.com/kymano-app/fedora/master/fedora35-workstation-arm64/0.1.yml
 # Please don't add macOS and Windows here
