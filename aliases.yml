@@ -4,4 +4,6 @@
   url: kymano-app/fedora/fedora35-workstation:0.1
 - name: fedora:36
   url: kymano-app/fedora/fedora35-workstation:0.1
+- name: fedora-server
+  url: kymano-app/fedora/fedora35-server:0.1
 # Please don't add macOS and Windows here
