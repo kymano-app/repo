@@ -1,7 +1,7 @@
 version: 0.1
 repos:
-  - url: https://github.com/kymano-app/fedora
+  - url: github.com/kymano-app/fedora
     version: 0.1
-  - url: https://github.com/kymano-app/guestfs
+  - url: github.com/kymano-app/guestfs
     version: 0.1
 # Please don't add macOS and Windows here
